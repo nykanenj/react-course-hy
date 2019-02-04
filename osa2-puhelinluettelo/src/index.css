@@ -12,3 +12,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.success {
+  margin: 10px 0;
+  padding: 12px;
+  color: #4F8A10;
+  background-color: #DFF2BF;
+}
+
+.error {
+  margin: 10px 0;
+  padding: 12px;
+  color: #D8000C;
+  background-color: #FFBABA;
+}
+
