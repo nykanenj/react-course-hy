@@ -10,8 +10,6 @@ const App = () => {
     axios.get('https://restcountries.eu/rest/v2/all')
     .then(response => setCountries(response.data));
   }, []);
-  
-  console.log('countries', countries);
 
   const onExprChange = (event) => setExpression(event.target.value);
 
@@ -19,7 +17,7 @@ const App = () => {
   const regExpr = new RegExp(expression, 'i');
   const filteredCountries = countries.filter(country => regExpr.test(country.name));
   const display =  filteredCountries.length === 1 ? <Country data={filteredCountries[0]} /> : 
-    (filteredCountries.length > 10 ? 'Too many results' : <Suggestions data={filteredCountries} />);
+    (filteredCountries.length > 10 ? 'Too many results' : <Suggestions data={filteredCountries} setExpression={setExpression} />);
 
 
   return (
@@ -46,11 +44,19 @@ const Country = ({data}) => {
       <h3> Languages </h3>
       {data.languages.map(language => <div key={language.name}> {language.name} </div>)}
       <h3> Flag </h3>
-      <img src={data.flag} width={300} class='border'/>
+      <img src={data.flag} width={300} className='border'/>
     </div>
   );
 }
 
-const Suggestions = ({data}) => data.map(country => <div key={country.name}> {country.name} </div>)
+const Suggestions = ({data, setExpression}) => data.map(country => {
+  return (
+  <div key={country.name}> 
+    <span> {country.name} </span> 
+    <button onClick={() => setExpression(country.name)}>
+      Show
+    </button>
+  </div>);
+});
 
 export default App;
