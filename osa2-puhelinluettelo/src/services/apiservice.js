@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = 'https://polar-sierra-37503.herokuapp.com/api/persons';
+const baseURL = '/api/persons';
 
 const getAll = () => axios.get(baseURL).then(response => response.data);
 
