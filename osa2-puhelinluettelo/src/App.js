@@ -18,7 +18,6 @@ const App = () => {
     .then(response => setRecords(response))
   }, []);
 
-
   const addPerson = (event) => {
     event.preventDefault();
     const found = records.findIndex(e => e.name === newName);
