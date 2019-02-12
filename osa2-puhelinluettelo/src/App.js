@@ -49,6 +49,10 @@ const App = () => {
         setTimeout(() => setMessage({ text:null }), 5000);
         setNewName('');
         setNewNumber('');
+      })
+      .catch(error => {
+        setMessage({text: error, class:'error'});
+        setTimeout(() => setMessage({ text:null }), 5000);
       });
   }
 
