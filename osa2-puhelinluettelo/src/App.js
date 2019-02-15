@@ -43,7 +43,9 @@ const App = () => {
     }
 
     apiservice.create(newPerson)
-      .then(response => setRecords(records.concat(response)))
+      .then(response => {
+        setRecords(records.concat(response));
+      })
       .then(() => {
         setMessage({text:`${newName} lisätty kantaan!`, class:'success'});
         setTimeout(() => setMessage({ text:null }), 5000);
@@ -51,7 +53,8 @@ const App = () => {
         setNewNumber('');
       })
       .catch(error => {
-        setMessage({text: error, class:'error'});
+        console.log('error', error.response.data);
+        setMessage({text: error.response.data.error, class:'error'});
         setTimeout(() => setMessage({ text:null }), 5000);
       });
   }
