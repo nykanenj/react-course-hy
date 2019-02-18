@@ -3,7 +3,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNtaXRoamVmIiwiaWQiOiI1YzZhZjEyYWI1NmI2YTVjZDc1MDQ3ZWIiLCJpYXQiOjE1NTA1MTUwMzZ9.9gNr__g2fxrV_4TQ5bIHvsCQDQorOBUbyXAbEnlCfrU
 
 {
-    "title": "Add blog with token authorization 1",
+    "title": "Add blog with token auth 2",
     "author": "Author 5000",
     "url": "www.testurl.com/blog5000",
     "likes": 20
