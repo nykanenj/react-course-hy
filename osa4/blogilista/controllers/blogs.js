@@ -1,7 +1,7 @@
 
 const blogsRouter = require('express').Router();
 const Blog = require('../models/blog');
-const User = require('../models/user');
+// const User = require('../models/user');
 
 blogsRouter.get('/info', (request, response) => {
   response.send('Welcome to blogilista API');
