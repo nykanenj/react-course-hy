@@ -8,7 +8,10 @@ const blogSchema = mongoose.Schema({
     required: true,
     unique: true,
   },
-  author: String,
+  author: {
+    type: String,
+    required: true,
+  },
   url: {
     type: String,
     minlength: 3,

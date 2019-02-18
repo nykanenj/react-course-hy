@@ -70,6 +70,68 @@ test('All blogs have id param', async () => {
   response.body.map(item => expect(item.id).toBeDefined());
 });
 
+test('Blog title missing', async () => {
+  const blogEntry = new Blog({
+    author: 'John Smith',
+    url: 'www.batman.com/blog',
+    likes: 100,
+  });
+
+  const response = await api.post('/api/blogs').send(blogEntry);
+  expect(response.statusCode).toBe(400);
+
+  const blogs = await api.get('/api/blogs');
+  expect(blogs.body.length).toBe(initialBlogs.length);
+});
+
+test('Blog url missing', async () => {
+  const blogEntry = new Blog({
+    title: 'Batman Blog',
+    author: 'John Smith',
+    likes: 100,
+  });
+
+  const response = await api.post('/api/blogs').send(blogEntry);
+  expect(response.statusCode).toBe(400);
+
+  const blogs = await api.get('/api/blogs');
+  expect(blogs.body.length).toBe(initialBlogs.length);
+});
+
+test('Post test, entry found, no. of blogs increased', async () => {
+  const blogEntry = new Blog({
+    title: 'Batman blog',
+    author: 'John Smith',
+    url: 'www.batman.com/blog',
+    likes: 100,
+  });
+
+  const response = await api.post('/api/blogs').send(blogEntry);
+  expect(response.statusCode).toBe(201);
+
+  const blogs = await api.get('/api/blogs');
+  const titles = blogs.body.map(item => item.title);
+
+  expect(titles).toContain('Batman blog');
+  expect(titles.length).toBe(initialBlogs.length + 1);
+});
+
+test('Likes undefined results in 0', async () => {
+  const blogEntry = new Blog({
+    title: 'Not liked blog',
+    author: 'John No Like',
+    url: 'www.nolikes.com/blog',
+  });
+
+  const response = await api.post('/api/blogs').send(blogEntry);
+  expect(response.statusCode).toBe(201);
+
+  const blogs = await api.get('/api/blogs');
+  const addedBlog = blogs.body[initialBlogs.length];
+
+  expect(addedBlog.likes).toBe(0);
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });

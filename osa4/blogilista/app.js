@@ -24,6 +24,6 @@ mongoose.connect(url, { useNewUrlParser: true })
     logger.error('error connection to MongoDB:', error.message);
   });
 app.use(middleware.unknownEndpoint);
-// app.use(middleware.errorHandler);
+app.use(middleware.errorHandler);
 
 module.exports = app;
