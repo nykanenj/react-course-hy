@@ -32,6 +32,9 @@ module.exports = {
 	"consistent-return": 0,
 	"no-underscore-dangle": 0,
 	"no-param-reassign": 0,
-	"arrow-parens": 0,
-    }
+  "arrow-parens": 0,
+  "global-require": 0,
+  "no-restricted-syntax": 0,
+  "no-await-in-loop": 0,
+  }
 };

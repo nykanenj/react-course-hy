@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title": "James Bond adventures",
-    "author": "James Bond",
-    "url": "www.jamesbond.com/blog",
-    "likes": 16
+    "title": "Test blog 1",
+    "author": "Author 1",
+    "url": "www.testurl.com/blog1",
+    "likes": 7
 }
