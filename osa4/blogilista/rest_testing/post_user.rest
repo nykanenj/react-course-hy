@@ -2,7 +2,12 @@ POST http://localhost:3003/api/users
 Content-Type: application/json
 
 {
-    "username": "palanderkall",
-    "name": "Kalle Palander",
-    "password": "urheiluhullu"
+    "username": "smithjef",
+    "name": "Jeff Smith",
+    "password": "economics",
+    "blogs": [
+      "5c69a6d19cb54625f7aa4246",
+      "5c69a7519cb54625f7aa4247",
+      "5c6a596a5be1232f2d612c8f"
+    ]
 }

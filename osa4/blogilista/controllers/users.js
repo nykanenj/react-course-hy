@@ -4,7 +4,7 @@ const User = require('../models/user');
 
 usersRouter.get('/', async (request, response, next) => {
   try {
-    const users = await User.find({});
+    const users = await User.find({}).populate('blogs', { likes: 0 });
     response.json(users);
   } catch (err) {
     next(err);
@@ -17,6 +17,7 @@ usersRouter.post('/', async (request, response, next) => {
       password,
       username,
       name,
+      blogs,
     } = request.body;
 
     if (!password) {
@@ -40,6 +41,7 @@ usersRouter.post('/', async (request, response, next) => {
       username,
       name,
       passwordHash,
+      blogs: blogs || [],
     });
 
     const savedUser = await newUser.save();
