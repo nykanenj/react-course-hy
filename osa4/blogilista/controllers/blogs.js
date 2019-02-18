@@ -32,7 +32,6 @@ blogsRouter.post('/', async (request, response, next) => {
 });
 
 blogsRouter.put('/:id', async (request, response, next) => {
-
   try {
     const existingEntry = await Blog.findById(request.params.id);
     const existing = existingEntry.toJSON();
