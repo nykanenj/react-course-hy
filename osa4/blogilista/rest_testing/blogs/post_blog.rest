@@ -1,10 +1,10 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNtaXRoamVmIiwiaWQiOiI1YzZhZjEyYWI1NmI2YTVjZDc1MDQ3ZWIiLCJpYXQiOjE1NTA1MTUwMzZ9.9gNr__g2fxrV_4TQ5bIHvsCQDQorOBUbyXAbEnlCfrU
 
 {
-    "title": "Test blog with user attempt 3",
-    "author": "Author 3",
-    "url": "www.testurl.com/blog3",
-    "likes": 7,
-    "user": "5c6ae1100d182f560507188b"
+    "title": "Add blog with token authorization 1",
+    "author": "Author 5000",
+    "url": "www.testurl.com/blog5000",
+    "likes": 20
 }

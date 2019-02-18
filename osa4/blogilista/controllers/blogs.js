@@ -1,7 +1,16 @@
 
 const blogsRouter = require('express').Router();
+const jwt = require('jsonwebtoken');
 const Blog = require('../models/blog');
-// const User = require('../models/user');
+const User = require('../models/user');
+
+const getTokenFrom = request => {
+  const authorization = request.get('authorization');
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    return authorization.substring(7);
+  }
+  return null;
+};
 
 blogsRouter.get('/info', (request, response) => {
   response.send('Welcome to blogilista API');
@@ -18,16 +27,33 @@ blogsRouter.get('/', async (request, response, next) => {
 });
 
 blogsRouter.post('/', async (request, response, next) => {
-  const newBlog = new Blog({
-    title: request.body.title,
-    author: request.body.author,
-    url: request.body.url,
-    likes: request.body.likes || 0,
-    user: request.body.user,
-  });
+
+  const {
+    title,
+    author,
+    url,
+    likes,
+  } = request.body;
 
   try {
+    const token = getTokenFrom(request);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+
+    if (!token || !decodedToken.id) {
+      return response.status(401).json({ error: 'token missing or not valid'});
+    }
+
+    const user = await User.findById(decodedToken.id);
+    const newBlog = new Blog({
+      title,
+      author,
+      url,
+      likes: likes || 0,
+      user,
+    });
+
     const result = await newBlog.save();
+    user.blogs = user.blogs.concat(result._id);
     response.status(201).json(result.toJSON());
   } catch (err) {
     next(err);
@@ -51,6 +77,7 @@ blogsRouter.put('/:id', async (request, response, next) => {
       author: author || existing.author,
       url: url || existing.url,
       likes: likes || existing.likes,
+      user: existing.user,
     };
 
     const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog,
