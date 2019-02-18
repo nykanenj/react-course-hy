@@ -31,7 +31,7 @@ blogsRouter.post('/', async (request, response, next) => {
     const decodedToken = jwt.verify(request.token, process.env.SECRET);
 
     if (!request.token || !decodedToken.id) {
-      return response.status(401).json({ error: 'token missing or not valid'});
+      return response.status(401).json({ error: 'token missing or not valid' });
     }
 
     const user = await User.findById(decodedToken.id);
@@ -81,6 +81,20 @@ blogsRouter.put('/:id', async (request, response, next) => {
 
 blogsRouter.delete('/:id', async (request, response, next) => {
   try {
+    const decodedToken = jwt.verify(request.token, process.env.SECRET);
+    if (!request.token || !decodedToken.id) {
+      return response.status(401).json({ error: 'token missing or not valid' });
+    }
+
+    const blog = await Blog.findById(request.params.id);
+    if (!blog) {
+      return response.status(404).json({ error: 'No blog post found with given id' });
+    }
+    // allow delete blog post if blog.user is not defined. If below is skipped.
+    if (blog.user && blog.user.toString() !== decodedToken.id) {
+      return response.status(401).json({ error: 'User tried to edit blog post of someone else' });
+    }
+
     await Blog.findByIdAndRemove(request.params.id);
     response.status(204).end();
   } catch (err) {
