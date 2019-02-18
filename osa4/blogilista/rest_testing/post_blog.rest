@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title": "Jonnen Jälkiruoat",
-    "author": "Jonne Jononen",
-    "url": "www.jolkiroat.fi/blog",
-    "likes": 10
+    "title": "James Bond adventures",
+    "author": "James Bond",
+    "url": "www.jamesbond.com/blog",
+    "likes": 16
 }
