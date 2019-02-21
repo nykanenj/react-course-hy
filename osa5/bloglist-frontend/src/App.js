@@ -10,9 +10,19 @@ const App = () => {
   const [password, setPassword] = useState([]);
   const [user, setUser] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
+  const [token, setToken] = useState('');
 
   useEffect(() => {
     blogService.getAll().then(fetchedBlogs => setBlogs(fetchedBlogs));
+  }, []);
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedUser');
+    if (loggedUserJSON) {
+      const loggedUser = JSON.parse(loggedUserJSON);
+      setUser(loggedUser);
+      setToken(loggedUser.setToken);
+    }
   }, []);
 
   const handleLogin = async (event) => {
@@ -24,6 +34,7 @@ const App = () => {
     try {
       const userResponse = await loginService.login(credentials);
       setUser(userResponse);
+      window.localStorage.setItem('loggedUser', JSON.stringify(userResponse));
       setUsername('');
       setPassword('');
     } catch (err) {
