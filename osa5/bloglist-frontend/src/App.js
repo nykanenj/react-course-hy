@@ -4,6 +4,8 @@ import blogService from './services/blogs';
 import loginService from './services/login';
 import Notification from './components/Notification';
 import InputField from './components/InputField';
+import LoginForm from './components/LoginForm';
+import Togglable from './components/Togglable';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -80,17 +82,6 @@ const App = () => {
     }
   };
 
-  const loginView = (
-    <div>
-      <h2>Kirjaudu</h2>
-      <form onSubmit={handleLogin}>
-        <InputField header="Käyttäjätunnus" value={username} setFunction={setUsername} />
-        <InputField header="Password" value={password} setFunction={setPassword} />
-        <button type="submit">Kirjaudu</button>
-      </form>
-    </div>
-  );
-
   const blogView = (user) => (
     <div>
       <div>
@@ -99,15 +90,18 @@ const App = () => {
       <div>
         <button type="button" onClick={() => handleLogout()}>Logout</button>
       </div>
-      <h2>Create new</h2>
-      <form onSubmit={createEntry}>
-        <InputField header="Title" value={title} setFunction={setTitle} />
-        <InputField header="Author" value={author} setFunction={setAuthor} />
-        <InputField header="URL" value={url} setFunction={setUrl} />
-        <button type="submit">Create</button>
-      </form>
       <h2>Blogs</h2>
       {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
+      <br />
+      <Togglable buttonLabel="Add entry">
+        <h2>Create new</h2>
+        <form onSubmit={createEntry}>
+          <InputField header="Title" value={title} setFunction={setTitle} />
+          <InputField header="Author" value={author} setFunction={setAuthor} />
+          <InputField header="URL" value={url} setFunction={setUrl} />
+          <button type="submit">Create</button>
+        </form>
+      </Togglable>
     </div>
   );
 
@@ -116,8 +110,15 @@ const App = () => {
       <h1>Epic blog page</h1>
       {successMessage && <Notification message={successMessage} classNameProp="success" />}
       {errorMessage && <Notification message={errorMessage} classNameProp="error" />}
-      <br />
-      {!user && loginView}
+      {!user && (
+        <LoginForm
+          handleSubmit={handleLogin}
+          handleUsernameChange={setUsername}
+          handlePassword={setPassword}
+          username={username}
+          password={password}
+        />
+      )}
       {user && blogView(user)}
     </div>
   );
