@@ -53,6 +53,10 @@ blogsRouter.post('/', async (request, response, next) => {
 
 blogsRouter.put('/:id', async (request, response, next) => {
   try {
+    const decodedToken = jwt.verify(request.token, process.env.SECRET);
+    if (!request.token || !decodedToken.id) {
+      return response.status(401).json({ error: 'token missing or not valid' });
+    }
     const existingEntry = await Blog.findById(request.params.id);
     const existing = existingEntry.toJSON();
 
@@ -62,7 +66,7 @@ blogsRouter.put('/:id', async (request, response, next) => {
       url,
       likes,
     } = request.body;
-
+	
     const blog = {
       title: title || existing.title,
       author: author || existing.author,
