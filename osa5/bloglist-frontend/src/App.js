@@ -82,6 +82,39 @@ const App = () => {
       }, 5000);
     }
   };
+
+  const putEntry = async (blog) => {
+    try {
+      const blogToSend = {
+        ...blog,
+        likes: blog.likes + 1,
+        user: user.token,
+      };
+      const id = blog.id;
+      delete blogToSend.id;
+      await blogService.putBlog(blogToSend, user.token, id);
+      
+      const newBlogs = blogs.map(blog => {
+        if (blog.id !== id) return blog;
+        const newBlog = {
+          ...blog,
+          likes: blog.likes + 1,
+        };
+        return newBlog;
+      });
+
+      setBlogs(newBlogs);
+      setSuccessMessage('Like lisätty');
+    } catch (err) {
+      setErrorMessage('Liketyksessä tapahtui virhe');
+    } finally {
+      setTimeout(() => {
+        setErrorMessage(null);
+        setSuccessMessage(null);
+      }, 5000);
+    }
+  };
+
   const blogView = (user) => (
     <div>
       <div>
@@ -91,7 +124,7 @@ const App = () => {
         <button type="button" onClick={() => handleLogout()}>Logout</button>
       </div>
       <h2>Blogs</h2>
-      {blogs.map(blog => <Blog key={blog.id} {...blog} />)}
+      {blogs.map(blog => <Blog key={blog.id} handleLike={putEntry} blog={blog} />)}
       <br />
       <Togglable buttonLabel="Add entry">
         <h2>Create new</h2>

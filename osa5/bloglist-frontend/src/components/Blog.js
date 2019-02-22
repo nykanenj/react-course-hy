@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const Blog = (props) => {
+const Blog = ({ blog, handleLike }) => {
   const {
     title,
     author,
     url,
     user,
     likes,
-  } = props;
+  } = blog;
   const [visible, setVisible] = useState(false);
   const toggleVisibility = () => {
     setVisible(!visible);
@@ -24,7 +24,12 @@ const Blog = (props) => {
             <br />
             {likes}
             <br />
-            <button type="button">Like </button>
+            <button
+              type="button"
+              onClick={() => handleLike(blog)}
+            >
+                Like
+            </button>
             <br />
             {user && user.name}
           </div>
@@ -35,11 +40,8 @@ const Blog = (props) => {
 };
 
 Blog.propTypes = {
-  title: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired,
-  user: PropTypes.object.isRequired,
-  likes: PropTypes.number,
+  blog: PropTypes.object.isRequired,
+  handleLike: PropTypes.func.isRequired,
 };
 
 export default Blog;
