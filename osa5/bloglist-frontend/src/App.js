@@ -50,7 +50,7 @@ const App = () => {
       setTimeout(() => {
         setErrorMessage(null);
         setSuccessMessage(null);
-      }, 5000);
+      }, 4000);
     }
   };
 
@@ -79,7 +79,7 @@ const App = () => {
       setTimeout(() => {
         setErrorMessage(null);
         setSuccessMessage(null);
-      }, 5000);
+      }, 4000);
     }
   };
 
@@ -93,7 +93,7 @@ const App = () => {
       const id = blog.id;
       delete blogToSend.id;
       await blogService.putBlog(blogToSend, user.token, id);
-      
+
       const newBlogs = blogs.map(blog => {
         if (blog.id !== id) return blog;
         const newBlog = {
@@ -111,7 +111,25 @@ const App = () => {
       setTimeout(() => {
         setErrorMessage(null);
         setSuccessMessage(null);
-      }, 5000);
+      }, 4000);
+    }
+  };
+
+  const removeEntry = async ({ id, title }) => {
+    try {
+      window.confirm(`Poistetaanko varmasti blogi: ${title}`);
+      await blogService.removeBlog(user.token, id);
+      const newBlogs = blogs.filter(blog => blog.id !== id);
+      setBlogs(newBlogs);
+      setSuccessMessage('Blog removed');
+    } catch (err) {
+      console.log(err);
+      setErrorMessage('Poisto epäonnistui');
+    } finally {
+      setTimeout(() => {
+        setErrorMessage(null);
+        setSuccessMessage(null);
+      }, 4000);
     }
   };
 
@@ -124,7 +142,14 @@ const App = () => {
         <button type="button" onClick={() => handleLogout()}>Logout</button>
       </div>
       <h2>Blogs</h2>
-      {blogs.sort((a, b) => b.likes - a.likes).map(blog => <Blog key={blog.id} handleLike={putEntry} blog={blog} />)}
+      {blogs.sort((a, b) => b.likes - a.likes).map(blog => (
+        <Blog
+          key={blog.id}
+          handleLike={putEntry}
+          handleRemove={removeEntry}
+          blog={blog}
+        />
+      ))}
       <br />
       <Togglable buttonLabel="Add entry">
         <h2>Create new</h2>

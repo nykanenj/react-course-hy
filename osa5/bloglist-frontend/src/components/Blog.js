@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const Blog = ({ blog, handleLike }) => {
+const Blog = ({ blog, handleLike, handleRemove }) => {
   const {
     title,
     author,
@@ -31,7 +31,14 @@ const Blog = ({ blog, handleLike }) => {
                 Like
             </button>
             <br />
-            {user && user.name}
+            {user && `Added by ${user.name}`}
+            <br />
+            <button
+              type="button"
+              onClick={() => handleRemove(blog)}
+            >
+              Remove
+            </button>
           </div>
         )}
       </div>
@@ -42,6 +49,7 @@ const Blog = ({ blog, handleLike }) => {
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
   handleLike: PropTypes.func.isRequired,
+  handleRemove: PropTypes.func.isRequired,
 };
 
 export default Blog;
