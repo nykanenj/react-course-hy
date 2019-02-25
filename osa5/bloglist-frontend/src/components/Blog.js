@@ -19,6 +19,7 @@ const Blog = ({ blog, handleLike, handleRemove, loggedUser }) => {
   return (
     <div className="blog-styles">
       <div
+        className="expandable"
         role="menuitem"
         onClick={toggleVisibility}
         tabIndex={0}
@@ -29,7 +30,7 @@ const Blog = ({ blog, handleLike, handleRemove, loggedUser }) => {
           <div>
             {url}
             <br />
-            {likes}
+            {`Likes: ${likes}`}
             <br />
             <button
               type="button"
