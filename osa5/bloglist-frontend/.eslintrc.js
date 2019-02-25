@@ -3,13 +3,19 @@ module.exports = {
         "browser": true,
         "node": true,
         "es6": true,
-        "jest": true,
+        "jest/globals": true,
     },
-    "extends": "eslint:recommended",
+    "extends": [ 
+      "eslint:recommended",
+      "plugin: react/recommended" 
+    ],
     "extends": "airbnb",
     "parserOptions": {
         "ecmaVersion": 2018
     },
+    "plugins": [
+      "react", "jest"
+    ],
     "rules": {
         "indent": [
             "error",
@@ -40,5 +46,7 @@ module.exports = {
   "react/jsx-filename-extension": 0,
   "react/require-default-props": 0,
   "no-shadow": 0,
+  "object-curly-newline": 0,
+  "react/prop-types":0,
   }
 };

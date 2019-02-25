@@ -18,7 +18,12 @@ const Blog = ({ blog, handleLike, handleRemove, loggedUser }) => {
 
   return (
     <div className="blog-styles">
-      <div onClick={toggleVisibility}>
+      <div
+        role="menuitem"
+        onClick={toggleVisibility}
+        tabIndex={0}
+        onKeyPress={toggleVisibility}
+      >
         {`${title}, ${author}`}
         {visible && (
           <div>
@@ -53,8 +58,18 @@ const Blog = ({ blog, handleLike, handleRemove, loggedUser }) => {
 };
 
 Blog.propTypes = {
-  blog: PropTypes.object.isRequired,
-  loggedUser: PropTypes.object,
+  blog: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    likes: PropTypes.number,
+    user: PropTypes.object,
+  }).isRequired,
+  loggedUser: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    token: PropTypes.string,
+    username: PropTypes.string,
+  }),
   handleLike: PropTypes.func.isRequired,
   handleRemove: PropTypes.func.isRequired,
 };
