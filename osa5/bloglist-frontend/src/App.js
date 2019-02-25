@@ -6,18 +6,17 @@ import Notification from './components/Notification';
 import InputField from './components/InputField';
 import LoginForm from './components/LoginForm';
 import Togglable from './components/Togglable';
+import useField from './hooks';
 import './index.css';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
-  const [username, setUsername] = useState([]);
-  const [password, setPassword] = useState([]);
   const [user, setUser] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const [url, setUrl] = useState('');
+  const titleField = useField('text');
+  const authorField = useField('text');
+  const urlField = useField('text');
 
   useEffect(() => {
     blogService.getAll().then(fetchedBlogs => setBlogs(fetchedBlogs));
@@ -34,15 +33,13 @@ const App = () => {
   const handleLogin = async (event) => {
     event.preventDefault();
     const credentials = {
-      username,
-      password,
+      username: event.target.Username.value,
+      password: event.target.Password.value
     };
     try {
       const userResponse = await loginService.login(credentials);
       setUser(userResponse);
       window.localStorage.setItem('loggedUser', JSON.stringify(userResponse));
-      setUsername('');
-      setPassword('');
       setSuccessMessage('Login successful');
     } catch (err) {
       setErrorMessage('Käyttäjätunnus tai salasana virheellinen');
@@ -62,9 +59,9 @@ const App = () => {
   const createEntry = async (event) => {
     event.preventDefault();
     const blog = {
-      title,
-      author,
-      url,
+      title: event.target.Title.value,
+      author: event.target.Author.value,
+      url: event.target.URL.value,
     };
     try {
       const response = await blogService.postBlog(blog, user.token);
@@ -154,9 +151,9 @@ const App = () => {
       <Togglable buttonLabel="Add entry">
         <h2>Create new</h2>
         <form onSubmit={createEntry}>
-          <InputField header="Title" value={title} setFunction={setTitle} />
-          <InputField header="Author" value={author} setFunction={setAuthor} />
-          <InputField header="URL" value={url} setFunction={setUrl} />
+          <InputField header="Title" {...titleField} />
+          <InputField header="Author" {...authorField} />
+          <InputField header="URL" {...urlField} />
           <button type="submit">Create</button>
         </form>
       </Togglable>
@@ -171,10 +168,6 @@ const App = () => {
       {!user && (
         <LoginForm
           handleSubmit={handleLogin}
-          handleUsernameChange={setUsername}
-          handlePassword={setPassword}
-          username={username}
-          password={password}
         />
       )}
       {user && blogView(user)}

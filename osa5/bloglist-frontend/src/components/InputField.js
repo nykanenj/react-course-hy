@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const InputField = ({ header, value, setFunction }) => (
+const InputField = ({ header, type, value, onChange }) => (
   <div>
     {header}
     <input
-      type="text"
+      type={type}
       value={value}
-      name="Password"
-      onChange={({ target }) => setFunction(target.value)}
+      name={header}
+      onChange={onChange}
     />
   </div>
 );
@@ -17,7 +17,7 @@ const InputField = ({ header, value, setFunction }) => (
 InputField.propTypes = {
   header: PropTypes.string.isRequired,
   value: PropTypes.node,
-  setFunction: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
 };
 
 export default InputField;
