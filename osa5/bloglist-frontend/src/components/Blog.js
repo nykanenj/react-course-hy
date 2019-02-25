@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const Blog = ({ blog, handleLike, handleRemove }) => {
+const Blog = ({ blog, handleLike, handleRemove, loggedUser }) => {
   const {
     title,
     author,
@@ -13,6 +13,8 @@ const Blog = ({ blog, handleLike, handleRemove }) => {
   const toggleVisibility = () => {
     setVisible(!visible);
   };
+
+  const showRemoveBtn = !user || user.name === loggedUser.name;
 
   return (
     <div className="blog-styles">
@@ -32,13 +34,17 @@ const Blog = ({ blog, handleLike, handleRemove }) => {
             </button>
             <br />
             {user && `Added by ${user.name}`}
-            <br />
-            <button
-              type="button"
-              onClick={() => handleRemove(blog)}
-            >
-              Remove
-            </button>
+            {showRemoveBtn && (
+              <div>
+                <br />
+                <button
+                  type="button"
+                  onClick={() => handleRemove(blog)}
+                >
+                  Remove
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -48,6 +54,7 @@ const Blog = ({ blog, handleLike, handleRemove }) => {
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
+  loggedUser: PropTypes.object,
   handleLike: PropTypes.func.isRequired,
   handleRemove: PropTypes.func.isRequired,
 };
