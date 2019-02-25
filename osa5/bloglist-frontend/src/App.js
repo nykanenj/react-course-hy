@@ -123,7 +123,6 @@ const App = () => {
       setBlogs(newBlogs);
       setSuccessMessage('Blog removed');
     } catch (err) {
-      console.log(err);
       setErrorMessage('Poisto epäonnistui');
     } finally {
       setTimeout(() => {

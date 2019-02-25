@@ -47,6 +47,7 @@ module.exports = {
   "react/require-default-props": 0,
   "no-shadow": 0,
   "object-curly-newline": 0,
-  "react/prop-types":0,
+  "react/prop-types": 0,
+  "import/no-extraneous-dependencies": 0,
   }
 };
