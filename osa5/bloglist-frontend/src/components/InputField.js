@@ -18,6 +18,7 @@ InputField.propTypes = {
   header: PropTypes.string.isRequired,
   value: PropTypes.node,
   onChange: PropTypes.func.isRequired,
+  reset: PropTypes.func,
 };
 
 export default InputField;

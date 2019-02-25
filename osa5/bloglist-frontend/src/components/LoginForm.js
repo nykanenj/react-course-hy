@@ -9,11 +9,17 @@ const LoginForm = ({
 }) => {
   const usernameField = useField('text');
   const passwordField = useField('text');
+  
+  const wrapperFunction = (event) => {
+    handleSubmit(event);
+    usernameField.reset();
+    passwordField.reset();
+  };
 
   return (
     <div>
       <h2>Kirjaudu</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={wrapperFunction}>
         <InputField header="Username" {...usernameField} />
         <InputField header="Password" {...passwordField} />
         <button type="submit">Kirjaudu</button>

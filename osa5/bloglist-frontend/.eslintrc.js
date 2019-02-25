@@ -6,10 +6,9 @@ module.exports = {
         "jest/globals": true,
     },
     "extends": [ 
-      "eslint:recommended",
+      "airbnb",
       "plugin: react/recommended" 
     ],
-    "extends": "airbnb",
     "parserOptions": {
         "ecmaVersion": 2018
     },

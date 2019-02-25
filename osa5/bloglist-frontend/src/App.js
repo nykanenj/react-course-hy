@@ -3,10 +3,9 @@ import Blog from './components/Blog';
 import blogService from './services/blogs';
 import loginService from './services/login';
 import Notification from './components/Notification';
-import InputField from './components/InputField';
 import LoginForm from './components/LoginForm';
+import AddBlogForm from './components/AddBlogForm';
 import Togglable from './components/Togglable';
-import useField from './hooks';
 import './index.css';
 
 const App = () => {
@@ -14,9 +13,6 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const titleField = useField('text');
-  const authorField = useField('text');
-  const urlField = useField('text');
 
   useEffect(() => {
     blogService.getAll().then(fetchedBlogs => setBlogs(fetchedBlogs));
@@ -66,9 +62,6 @@ const App = () => {
     try {
       const response = await blogService.postBlog(blog, user.token);
       setBlogs(blogs.concat(response));
-      setTitle('');
-      setAuthor('');
-      setUrl('');
       setSuccessMessage('Blogi lisätty onnistuneesti');
     } catch (err) {
       setErrorMessage('Blogin tallentamisessa tapahtui virhe');
@@ -149,13 +142,7 @@ const App = () => {
       ))}
       <br />
       <Togglable buttonLabel="Add entry">
-        <h2>Create new</h2>
-        <form onSubmit={createEntry}>
-          <InputField header="Title" {...titleField} />
-          <InputField header="Author" {...authorField} />
-          <InputField header="URL" {...urlField} />
-          <button type="submit">Create</button>
-        </form>
+        <AddBlogForm handleSubmit={createEntry} />
       </Togglable>
     </div>
   );
