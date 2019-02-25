@@ -124,7 +124,7 @@ const App = () => {
         <button type="button" onClick={() => handleLogout()}>Logout</button>
       </div>
       <h2>Blogs</h2>
-      {blogs.map(blog => <Blog key={blog.id} handleLike={putEntry} blog={blog} />)}
+      {blogs.sort((a, b) => b.likes - a.likes).map(blog => <Blog key={blog.id} handleLike={putEntry} blog={blog} />)}
       <br />
       <Togglable buttonLabel="Add entry">
         <h2>Create new</h2>
