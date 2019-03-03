@@ -1,30 +1,16 @@
 import React from 'react';
+import { voteAction, createAction } from './reducers/anecdoteReducer';
+import AnecdoteForm from './components/AnecdoteForm';
 
 const App = ({ store }) => {
   const anecdotes = store.getState().sort((a, b) => b.votes - a.votes);
   
-  const vote = (id) => {
-    const action = {
-      type: 'VOTE',
-      data: {
-        id,
-      }
-    }
-    store.dispatch(action);
-  }
-
-  const createAnectdote = (event) => {
+  const createAnecdote = (event) => {
     event.preventDefault();
-    const content = event.target.anecdote.value;
-    store.dispatch({
-      type: 'NEW_ANECDOTE',
-      data: {
-        content,
-      },
-    });
+    store.dispatch(createAction(event.target.anecdote.value));
     event.target.anecdote.value = '';
   }
-  
+
   return (
     <div>
       <h2>Anecdotes</h2>
@@ -35,15 +21,11 @@ const App = ({ store }) => {
           </div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id)}>vote</button>
+            <button onClick={() => store.dispatch(voteAction(anecdote.id))}>vote</button>
           </div>
         </div>
       )}
-      <h2>create new</h2>
-      <form onSubmit={createAnectdote} >
-        <div><input name='anecdote' /></div>
-        <button type='submit'>create</button>
-      </form>
+      <AnecdoteForm title='Create New' inputName='anecdote' createAnecdote={createAnecdote}/>
     </div>
   )
 }
