@@ -1,8 +1,17 @@
 import React from 'react';
-import { voteAction } from '../reducers/anecdoteReducer';
 
-const AnecdoteList = ({store}) => {
-  const anecdotes = store.getState().sort((a, b) => b.votes - a.votes);
+const AnecdoteList = ({ store }) => {
+  const anecdotes = store.getState().anecdotes.sort((a, b) => b.votes - a.votes);
+  const vote = (id, notification) => {
+    store.dispatch({
+      type: 'VOTE',
+      data: {
+        id,
+        notification
+      }
+    });
+  }
+
   return (
     <div>
       <h2>Anecdotes</h2>
@@ -13,7 +22,7 @@ const AnecdoteList = ({store}) => {
           </div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => store.dispatch(voteAction(anecdote.id))}>vote</button>
+            <button onClick={() => vote(anecdote.id, anecdote.content)}>vote</button>
           </div>
         </div>
       )}

@@ -1,10 +1,15 @@
 import React from 'react';
-import { createAction } from '../reducers/anecdoteReducer';
 
 const AnecdoteForm = ({ inputName, title, store}) => {
   const createAnecdote = (event) => {
     event.preventDefault();
-    store.dispatch(createAction(event.target.anecdote.value));
+    store.dispatch({
+      type: 'NEW_ANECDOTE',
+      data: {
+        content: event.target.anecdote.value,
+        notification: event.target.anecdote.value
+      },
+    });
     event.target.anecdote.value = '';
   }
 
