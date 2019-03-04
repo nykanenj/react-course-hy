@@ -1,6 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-const Notification = ({ store }) => {
+const Notification = ({ notification, resetNotification }) => {
   const style = {
     border: 'solid',
     padding: 10,
@@ -8,16 +9,14 @@ const Notification = ({ store }) => {
   }
 
   //render sthing only when notification
-  if (store.getState().notification) {
+  if (notification) {
     setTimeout(() => {
-      store.dispatch({
-        type: 'RESET_NOTIFICATION'
-      });
+      resetNotification()
     }, 5000);
 
     return (
       <div style={style}>
-        {store.getState().notification}
+        {notification}
       </div>
     );
   }
@@ -25,4 +24,18 @@ const Notification = ({ store }) => {
   return <div></div>;
 }
 
-export default Notification
+const mapStateToProps = state => {
+  return { 
+    notification: state.notification,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    resetNotification: () => dispatch({
+      type: 'RESET_NOTIFICATION'
+    }),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Notification)

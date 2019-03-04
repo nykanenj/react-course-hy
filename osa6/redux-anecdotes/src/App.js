@@ -4,11 +4,11 @@ import AnecdoteForm from './components/AnecdoteForm';
 import AnecdoteList from './components/AnecdoteList';
 import Notification from './components/Notification';
 
-const App = ({ store }) => {
+const App = () => {
   return (
     <div>
       <h1> Anecdote Voting Website </h1>
-      <Notification store={store} />
+      <Notification />
       <FilterForm />
       <AnecdoteForm 
         title='Create New' 
