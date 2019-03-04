@@ -1,32 +1,24 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { voteAction } from '../reducers/anecdoteReducer';
 
-const AnecdoteList = ({ store }) => {
-  const regExpr = new RegExp(store.getState().filter, 'i');
-  const anecdotes = store.getState().anecdotes
+const AnecdoteList = ({ filter, anecdotes, voteAction }) => {
+  const regExpr = new RegExp(filter, 'i');
+  const parsedAnecdotes = anecdotes
     .filter(e => regExpr.test(e.content))
     .sort((a, b) => b.votes - a.votes);
-    
-  const vote = (id, notification) => {
-    store.dispatch({
-      type: 'VOTE',
-      data: {
-        id,
-        notification
-      }
-    });
-  }
 
   return (
     <div>
       <h2>Anecdotes</h2>
-      {anecdotes.map(anecdote =>
+      {parsedAnecdotes.map(anecdote =>
         <div key={anecdote.id}>
           <div>
             {anecdote.content}
           </div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id, anecdote.content)}>vote</button>
+            <button onClick={() => voteAction(anecdote.id, anecdote.content)}>vote</button>
           </div>
         </div>
       )}
@@ -34,4 +26,18 @@ const AnecdoteList = ({ store }) => {
   )
 };
 
-export default AnecdoteList;
+const mapStateToProps = state => {
+  return {
+    filter: state.filter,
+    anecdotes: state.anecdotes,
+  }
+};
+
+const mapDispatchToProps = {
+  voteAction,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+  )(AnecdoteList);
