@@ -14,7 +14,7 @@ const AnecdoteList = ({ parsedAnecdotes, voteAction }) => {
           </div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => voteAction(anecdote.id, anecdote.content)}>vote</button>
+            <button onClick={() => voteAction(anecdote)}>vote</button>
           </div>
         </div>
       )}
@@ -27,7 +27,7 @@ const parseAnecdotes = ({ anecdotes, filter }) => {
   const parsedAnecdotes = anecdotes
     .filter(e => regExpr.test(e.content))
     .sort((a, b) => b.votes - a.votes);
-  return parsedAnecdotes
+  return parsedAnecdotes;
 }
 
 const mapStateToProps = state => {
