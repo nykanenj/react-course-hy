@@ -1,16 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { createAnecdoteAction } from '../reducers/anecdoteReducer';
 
-const AnecdoteForm = ({ inputName, title, store}) => {
+const AnecdoteForm = ({ inputName, title, createAnecdoteAction}) => {
   const createAnecdote = (event) => {
     event.preventDefault();
-    store.dispatch({
-      type: 'NEW_ANECDOTE',
-      data: {
-        content: event.target.anecdote.value,
-        notification: event.target.anecdote.value
-      },
-    });
-    event.target.anecdote.value = '';
+    createAnecdoteAction(event.target[inputName].value)
+    event.target[inputName].value = '';
   }
 
   return (
@@ -24,4 +20,8 @@ const AnecdoteForm = ({ inputName, title, store}) => {
   )
 }
 
-export default AnecdoteForm;
+const mapDispatchToProps = {
+  createAnecdoteAction,
+}
+
+export default connect(null, mapDispatchToProps)(AnecdoteForm);

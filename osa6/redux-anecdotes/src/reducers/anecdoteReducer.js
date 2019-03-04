@@ -17,11 +17,12 @@ const voteAction = (id, notification) => {
   }
 }
 
-const createAction = (content) => {
+const createAnecdoteAction = (anecdoteText) => {
   return {
     type: 'NEW_ANECDOTE',
     data: {
-      content,
+      content: anecdoteText,
+      notification: anecdoteText
     },
   }
 }
@@ -67,5 +68,5 @@ export default anecdoteReducer;
 
 export { 
   voteAction,
-  createAction,
+  createAnecdoteAction,
 };
