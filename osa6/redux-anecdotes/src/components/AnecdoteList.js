@@ -1,7 +1,11 @@
 import React from 'react';
 
 const AnecdoteList = ({ store }) => {
-  const anecdotes = store.getState().anecdotes.sort((a, b) => b.votes - a.votes);
+  const regExpr = new RegExp(store.getState().filter, 'i');
+  const anecdotes = store.getState().anecdotes
+    .filter(e => regExpr.test(e.content))
+    .sort((a, b) => b.votes - a.votes);
+    
   const vote = (id, notification) => {
     store.dispatch({
       type: 'VOTE',
