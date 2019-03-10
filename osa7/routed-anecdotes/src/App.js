@@ -3,36 +3,20 @@ import {
   BrowserRouter as Router,
   Route, Link, Redirect, withRouter,
 } from 'react-router-dom';
+import './App.css';
 
 import AnecdoteList from './components/AnecdoteList';
 import About from './components/About';
 import Anecdote from './components/Anecdote';
-
-const Menu = () => {
-  const padding = {
-    paddingRight: 5
-  }
-  return (
-    <div>
-      <Link style={padding} to="/">home</Link>
-      <Link style={padding} to="/create">create new</Link>
-      <Link style={padding} to="/about">about</Link>
-    </div>
-  )
-}
-
-const Footer = () => (
-  <div>
-    Anecdote app for <a href='https://courses.helsinki.fi/fi/tkt21009'>Full Stack -sovelluskehitys</a>.
-
-    See <a href='https://github.com/fullstack-hy2019/routed-anecdotes/blob/master/src/App.js'>https://github.com/fullstack-hy2019/routed-anecdotes/blob/master/src/App.js</a> for the source code.
-  </div>
-)
+import Menu from './components/Menu';
+import Footer from './components/Footer';
+import Notification from './components/Notification';
 
 const CreateNew = (props) => {
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
+  const [submitted, setSubmitted] = useState(false);
 
 
   const handleSubmit = (e) => {
@@ -43,7 +27,11 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+    props.setNotification(`A new anecdote ${content} added successfully`);
+    setSubmitted(true);
   }
+
+  if (submitted) return <Redirect to="/" />;
 
   return (
     <div>
@@ -89,8 +77,8 @@ const App = () => {
   const [notification, setNotification] = useState('')
 
   const addNew = (anecdote) => {
-    anecdote.id = (Math.random() * 10000).toFixed(0)
-    setAnecdotes(anecdotes.concat(anecdote))
+    anecdote.id = (Math.random() * 10000).toFixed(0);
+    setAnecdotes(anecdotes.concat(anecdote));
   }
 
   const anecdoteById = (id) =>
@@ -112,8 +100,13 @@ const App = () => {
       <div>
         <h1>Software anecdotes</h1>
         <Menu />
+        <Notification 
+          message={notification}
+          classNameProp='success'
+          setNotification={setNotification}
+        />
         <Route exact path = "/" render={() => <AnecdoteList anecdotes={anecdotes} /> } />
-        <Route path = "/create" render={() => <CreateNew addNew={addNew} /> } />
+        <Route path = "/create" render={() => <CreateNew addNew={addNew} setNotification={setNotification} /> } />
         <Route path = "/about" render={() => <About /> } />
         <Route exact path = "/anecdote/:id" render={({ match }) =>
           <Anecdote anecdote={anecdoteById(match.params.id)} />}
